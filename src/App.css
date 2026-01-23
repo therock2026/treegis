@@ -1,42 +1,299 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.app {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  position: relative;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+#map {
+  height: 100vh;
+  width: 100%;
+  border: 2px solid #ccc;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.leaflet-popup-content-wrapper {
+  font-size: 14px;
+  font-family: 'Arial', sans-serif;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+#basemap-selector {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  font-weight: 600;
+  color: #333;
 }
 
-.card {
-  padding: 2em;
+#project-selector {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1001;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(15px);
+  padding: 8px 16px;
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  min-width: 280px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.read-the-docs {
+#project-selector:hover {
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateX(-50%) translateY(-2px);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+}
+
+.selector-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding-left: 4px;
+}
+
+.logo-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+#project-selector label {
+  font-size: 11px;
+  font-weight: 800;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+#projects-select {
+  width: 100%;
+  padding: 8px 32px 8px 12px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  font-weight: 600;
+  color: #1a1a1a;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+}
+
+.dropdown-arrow {
+  position: absolute;
+  right: 8px;
+  pointer-events: none;
+  color: #999;
+  font-size: 20px !important;
+  transition: transform 0.3s ease;
+}
+
+#project-selector:hover .dropdown-arrow {
+  color: #4CAF50;
+  transform: translateY(2px);
+}
+
+#layers-selector {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  z-index: 1000;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+  width: 220px;
+  max-height: 60vh;
+  overflow-y: auto;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+#layers-selector h3 {
+  margin: 0 0 10px 0;
+  font-size: 13px;
+  font-weight: 800;
+  color: #1a1a1a;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.info-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.info-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.icon-tree {
+  color: #2e7d32;
+  background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.15);
+  border: 1px solid rgba(76, 175, 80, 0.2);
+}
+
+.icon-segment {
+  color: #1565c0;
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  box-shadow: 0 2px 8px rgba(33, 150, 243, 0.15);
+  border: 1px solid rgba(33, 150, 243, 0.2);
+}
+
+.icon-polygon {
+  color: #ef6c00;
+  background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+  box-shadow: 0 2px 8px rgba(255, 152, 0, 0.15);
+  border: 1px solid rgba(255, 152, 0, 0.2);
+}
+
+.layer-item:hover .info-icon {
+  transform: scale(1.05) translateY(-2px);
+  filter: brightness(1.05);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+}
+
+.layers-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.layer-container {
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  border: 1px solid #f0f0f0;
+}
+
+.layer-item {
+  padding: 6px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #ffffff;
+}
+
+.layer-info {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  flex-grow: 1;
+}
+
+.layer-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.layer-visibility .material-icons {
+  font-size: 20px;
+  transition: all 0.2s ease;
+}
+
+.layer-visibility .visible {
+  color: #4CAF50;
+}
+
+.layer-visibility .hidden {
+  color: #bbb;
+}
+
+.layer-visibility:hover .visible {
+  color: #388E3C;
+  transform: scale(1.1);
+}
+
+.layer-visibility:hover .hidden {
   color: #888;
+  transform: scale(1.1);
 }
+
+#basemap-selector label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #555;
+}
+
+.basemap-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.basemap-btn {
+  padding: 10px 15px;
+  border: 2px solid #ddd;
+  border-radius: 6px;
+  background-color: #f5f5f5;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  color: #333;
+  transition: all 0.3s ease;
+  text-align: left;
+  position: relative;
+}
+
+.basemap-btn:hover {
+  border-color: #4CAF50;
+  background-color: #e8f5e9;
+  transform: translateX(3px);
+  box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+}
+
+.basemap-btn.active {
+  border-color: #4CAF50;
+  background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+  color: white;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.4);
+}
+
+.basemap-btn.active::before {
+  content: "✓";
+  position: absolute;
+  right: 12px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#map .leaflet-control-zoom {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Estilos para Clusters de Árboles Dinámicos */
