@@ -184,7 +184,7 @@ const App: React.FC = () => {
       else if (nombreTabla === 'polygons' || nombreTabla === 'poligonos') nombreTabla = 'poligonos';
 
       const campoFiltro = 'id_capa';
-      const valorFiltro = Number(idFisicoCapa);
+      const valorFiltro = idFisicoCapa;
 
       console.log(`[GIS] Consultando Tabla: ${nombreTabla}, Filtro: ${campoFiltro} = ${valorFiltro}`);
 
